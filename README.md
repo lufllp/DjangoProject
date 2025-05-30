@@ -62,9 +62,8 @@ http://127.0.0.1:8000/
 
 ## Equipe
 
-- **Nome da equipe**: ______________________
-- **Tech Leader**: ______________________
-- **Dev1**: ______________________
-- **Dev2**: ______________________
-- **Dev3**: ______________________
-
+- **Nome da equipe**: 
+- **Tech Leader**: Luan Lopes
+- **Dev1**: Antônio Adejôfre
+- **Dev2**: Isabele Maciel
+- **Dev3**: Thales Assunção
