@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Autores</title>
+</head>
+<body>
+    <h1>Autores</h1>
+    <a href="{% url 'author_create' %}">+ Novo Autor</a>
+    <ul>
+        {% for author in authors %}
+            <li>
+                {{ author.name }}
+                <a href="{% url 'author_update' author.pk %}">Editar</a>
+                <a href="{% url 'author_delete' author.pk %}">Deletar</a>
+            </li>
+        {% empty %}
+            <li>Nenhum autor cadastrado.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'author_list' %}">Voltar para Itens</a>
+    <br>
+    <a href={% url 'category_list' %}>Categorias</a> <br>
+
+</body>
+</html>
