@@ -1,7 +1,7 @@
 from django import forms
-from .models import Author
+from .models import Item
 
-class AuthorForm(forms.ModelForm):
+class ItemForm(forms.ModelForm):
     class Meta:
-        model = Author
-        fields = ['name', 'bio']
+        model = Item
+        fields = ['name', 'description']
