@@ -1,1 +1,146 @@
-<h1>Items</h1><ul>{% for item in items %}<li>{{ item.name }} - <a href="{% url 'item_update' item.pk %}">Edit</a> - <a href="{% url 'item_delete' item.pk %}">Delete</a></li>{% endfor %}</ul><a href="{% url 'item_create' %}">New Item</a>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Álbuns</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 2rem;
+      border-bottom: 2px solid #333;
+      padding-bottom: 10px;
+      margin: 0 auto 20px;
+      max-width: 1200px;
+    }
+
+    nav {
+      margin-bottom: 20px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    nav a {
+      margin-right: 15px;
+      color: #a4c8ff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    li {
+      background: #2c2c2c;
+      padding: 15px;
+      border-radius: 8px;
+      list-style: none;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    li:hover {
+      transform: scale(1.02);
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    }
+
+    strong {
+      color: #f1f1f1;
+    }
+
+    a {
+      color: #ff6b6b;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #444;
+      margin: 30px 0;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    p {
+      margin: 6px 0;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Lista de Álbuns</h1>
+
+  <nav>
+    <a href="{% url 'album_create' %}">Novo Álbum</a> |
+    <a href="{% url 'category_create' %}">Nova Categoria</a> |
+    <a href="{% url 'publisher_create' %}">Nova Editora</a> |
+    <a href="{% url 'author_create' %}">Novo Autor</a>
+  </nav>
+
+  <hr>
+
+  {% if albums %}
+    <ul>
+      {% for album in albums %}
+        <li>
+          {% if album.cover_url %}
+            <img src="{{ album.cover_url }}" alt="Capa do álbum">
+          {% endif %}
+
+          <p><strong>Álbum:</strong> {{ album.name }}</p>
+          <p><strong>Item:</strong> {{ album.item.name }}</p>
+          <p><strong>Descrição:</strong> {{ album.item.description }}</p>
+          <p><strong>Categoria:</strong> {{ album.category.name }}</p>
+          <p><strong>Autor:</strong> {{ album.author.name }}</p>
+          <p><strong>País do autor:</strong> {{ album.author.country }}</p>
+          <p><strong>Data de nascimento:</strong> {{ album.author.birth_date }}</p>
+          <p><strong>Editora:</strong> {{ album.author.publisher.name }}</p>
+
+          <p><a href="{% url 'album_delete' album.pk %}">Excluir</a></p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nenhum álbum cadastrado.</p>
+  {% endif %}
+
+</body>
+</html>
