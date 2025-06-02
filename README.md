@@ -31,7 +31,7 @@ Projeto Django base para atividade prática do curso de versionemento de código
 
 3. **Instale as dependências**
    ```bash
-   pip install Django
+   pip install -r requirements.txt
    ```
 
 ## Migrações do Banco de Dados
