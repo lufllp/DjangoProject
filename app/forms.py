@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, Category, Author
+from .models import Item, Category, Album
 
 
 class ItemForm(forms.ModelForm):
@@ -7,12 +7,14 @@ class ItemForm(forms.ModelForm):
         model = Item
         fields = ['name', 'description']
 
+
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = '__all__'
 
-class AuthorForm(forms.ModelForm):
+
+class AlbumForm(forms.ModelForm):
     class Meta:
-        model = Author
-        fields = ['name', 'bio']
+        model = Album
+        fields = ['name', 'item', 'category', 'author']
