@@ -1,6 +1,6 @@
-# TucumaSoft 1.2
+# TucumaSoft 2.1
 
-> **Versão**: 1.2
+> **Versão**: 2.1
 
 ## Descrição
 
@@ -31,7 +31,7 @@ Projeto Django base para atividade prática do curso de versionemento de código
 
 3. **Instale as dependências**
    ```bash
-   pip install Django
+   pip install -r requirements.txt
    ```
 
 ## Migrações do Banco de Dados
@@ -57,7 +57,7 @@ http://127.0.0.1:8000/
 
 ## Versão
 
-- **TucumaSoft**: 1.2
+- **TucumaSoft**: 2.0.1
 - Registre sua versão a partir dessa.
 
 ## Equipe
