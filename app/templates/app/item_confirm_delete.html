@@ -1,1 +1,82 @@
-<h1>Confirm Delete</h1><form method="post">{% csrf_token %}<p>Delete '{{ item }}'?</p><button type="submit">Yes</button><a href="{% url 'item_list' %}">Cancel</a></form>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmação de Exclusão</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .confirm-container {
+      background-color: #2c2c2c;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h1 {
+      margin-bottom: 15px;
+      font-size: 1.6rem;
+    }
+
+    p {
+      margin-bottom: 25px;
+      font-size: 1.1rem;
+    }
+
+    button {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background-color: #e63c3c;
+    }
+
+    a {
+      color: #a4c8ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="confirm-container">
+    <h1>Confirmação de Exclusão</h1>
+    <form method="post">
+      {% csrf_token %}
+      <p>Tem certeza que deseja excluir <strong>'{{ item }}'</strong>?</p>
+      <button type="submit">Sim, excluir</button>
+      <a href="{% url 'item_list' %}">Cancelar</a>
+    </form>
+  </div>
+
+</body>
+</html>

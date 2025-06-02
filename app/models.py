@@ -24,22 +24,16 @@ class Item(models.Model):
 
 
 class Category(BaseModel):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='categories')
-
     class Meta:
         db_table = 'categoria'
 
 
 class Publisher(BaseModel):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='publishers')
-
     class Meta:
         db_table = 'editora'
 
 
 class Author(BaseModel):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='authors')
-    photo_url = models.CharField(max_length=200)
     country = models.CharField(max_length=100)
     birth_date = models.DateField()
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
@@ -52,6 +46,7 @@ class Album(BaseModel):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='albums')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    cover_url = models.CharField(max_length=200, blank=True)
 
     class Meta:
         db_table = 'album'
