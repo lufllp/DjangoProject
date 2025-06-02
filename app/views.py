@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Item, Category, Author
-from .forms import ItemForm, CategoryForm, AuthorForm
+from .models import Item, Category, Album, Publisher, Author
+from .forms import ItemForm, CategoryForm, AlbumForm, PublisherForm, AuthorForm
 
 
 def item_list(request):
-    items = Item.objects.all()
-    return render(request, 'app/item_list.html', {'items': items})
+    albums = Album.objects.select_related('item', 'category', 'author__publisher')
+    return render(request, 'app/item_list.html', {'albums': albums})
+
 
 def item_create(request):
     if request.method == 'POST':
@@ -16,6 +17,7 @@ def item_create(request):
     else:
         form = ItemForm()
     return render(request, 'app/item_form.html', {'form': form})
+
 
 def item_update(request, pk):
     item = get_object_or_404(Item, pk=pk)
@@ -28,6 +30,7 @@ def item_update(request, pk):
         form = ItemForm(instance=item)
     return render(request, 'app/item_form.html', {'form': form})
 
+
 def item_delete(request, pk):
     item = get_object_or_404(Item, pk=pk)
     if request.method == 'POST':
@@ -36,10 +39,10 @@ def item_delete(request, pk):
     return render(request, 'app/item_confirm_delete.html', {'item': item})
 
 
-
 def category_list(request):
     categories = Category.objects.all()
-    return render(request, 'app/category_list.html', {'categories': categories})  # usa a mesma view HTML
+    return render(request, 'app/item_list.html', {'categories': categories})
+
 
 def category_create(request):
     if request.method == 'POST':
@@ -49,7 +52,8 @@ def category_create(request):
             return redirect('category_list')
     else:
         form = CategoryForm()
-    return render(request, 'app/category_form.html', {'form': form})
+    return render(request, 'app/item_form.html', {'form': form})
+
 
 def category_update(request, pk):
     category = get_object_or_404(Category, pk=pk)
@@ -60,44 +64,59 @@ def category_update(request, pk):
             return redirect('category_list')
     else:
         form = CategoryForm(instance=category)
-    return render(request, 'app/category_form.html', {'form': form})
+    return render(request, 'app/item_form.html', {'form': form})
+
 
 def category_delete(request, pk):
     category = get_object_or_404(Category, pk=pk)
     if request.method == 'POST':
         category.delete()
         return redirect('category_list')
-    return render(request, 'app/category_confirm_delete.html', {'category': category})
+    return render(request, 'app/item_confirm_delete.html', {'category': category})
 
 
-def author_list(request):
-    authors = Author.objects.all()
-    return render(request, 'app/author_list.html', {'authors': authors})
+def album_create(request):
+    if request.method == 'POST':
+        form = AlbumForm(request.POST)
+        if form.is_valid():
+            item = Item.objects.create(
+                name=form.cleaned_data['item_name'],
+                description=form.cleaned_data['item_description']
+            )
+            album = form.save(commit=False)
+            album.item = item
+            album.cover_url = form.cleaned_data['cover_url']  # <- ESSENCIAL
+            album.save()
+            return redirect('item_list')
+    else:
+        form = AlbumForm()
+    return render(request, 'app/item_form.html', {'form': form})
+
+def album_delete(request, pk):
+    album = get_object_or_404(Album, pk=pk)
+    if request.method == 'POST':
+        album.delete()
+        return redirect('item_list')
+    return render(request, 'app/item_confirm_delete.html', {'item': album})
+
+
+def publisher_create(request):
+    if request.method == 'POST':
+        form = PublisherForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('item_list')
+    else:
+        form = PublisherForm()
+    return render(request, 'app/item_form.html', {'form': form})
+
 
 def author_create(request):
     if request.method == 'POST':
         form = AuthorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('author_list')
+            return redirect('item_list')
     else:
         form = AuthorForm()
-    return render(request, 'app/author_form.html', {'form': form})
-
-def author_update(request, pk):
-    author = get_object_or_404(Author, pk=pk)
-    if request.method == 'POST':
-        form = AuthorForm(request.POST, instance=author)
-        if form.is_valid():
-            form.save()
-            return redirect('author_list')
-    else:
-        form = AuthorForm(instance=author)
-    return render(request, 'app/author_form.html', {'form': form})
-
-def author_delete(request, pk):
-    author = get_object_or_404(Author, pk=pk)
-    if request.method == 'POST':
-        author.delete()
-        return redirect('author_list')
-    return render(request, 'app/author_confirm_delete.html', {'author': author})
+    return render(request, 'app/item_form.html', {'form': form})
