@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Item, Category, Author
-from .forms import ItemForm, CategoryForm, AuthorForm
+from .models import Item, Category,Album
+from .forms import ItemForm, CategoryForm, AlbumForm
+
+
 
 
 def item_list(request):
@@ -69,35 +71,17 @@ def category_delete(request, pk):
         return redirect('category_list')
     return render(request, 'app/category_confirm_delete.html', {'category': category})
 
+def album_list(request):
+    albums = Album.objects.all()
+    return render(request, 'app/album_list.html', {'albums': albums})
 
-def author_list(request):
-    authors = Author.objects.all()
-    return render(request, 'app/author_list.html', {'authors': authors})
 
-def author_create(request):
+def album_create(request):
     if request.method == 'POST':
-        form = AuthorForm(request.POST)
+        form = AlbumForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('author_list')
+            return redirect('album_list')
     else:
-        form = AuthorForm()
-    return render(request, 'app/author_form.html', {'form': form})
-
-def author_update(request, pk):
-    author = get_object_or_404(Author, pk=pk)
-    if request.method == 'POST':
-        form = AuthorForm(request.POST, instance=author)
-        if form.is_valid():
-            form.save()
-            return redirect('author_list')
-    else:
-        form = AuthorForm(instance=author)
-    return render(request, 'app/author_form.html', {'form': form})
-
-def author_delete(request, pk):
-    author = get_object_or_404(Author, pk=pk)
-    if request.method == 'POST':
-        author.delete()
-        return redirect('author_list')
-    return render(request, 'app/author_confirm_delete.html', {'author': author})
+        form = AlbumForm()
+    return render(request, 'app/album_form.html', {'form': form})
